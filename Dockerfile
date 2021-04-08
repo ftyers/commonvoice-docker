@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libboost-all-dev \
         libbz2-dev \
         locales \
+        sox \
+        libsox-fmt-mp3 \
         vim \
         nano \
         python3-venv \
@@ -104,14 +106,13 @@ ADD train.sh /
 ADD test.sh /
 ADD export.sh /
 ADD lm.sh /
+ADD run.sh /
 ADD importers.py /
 ADD import_cv2.py /
 ADD config /
 
 # Monkey patched versions of import_cv2 and imports.py including Covo
 RUN mv /import_cv2.py /STT/bin/import_cv2.py
-
-RUN find /STT/training
 
 RUN mv /importers.py /STT/training/deepspeech_training/util/importers.py
 
@@ -129,4 +130,4 @@ RUN mkdir /logs
 #RUN /bin/bash -x /lm.sh >/logs/lm.log 2>&1 
 #RUN /bin/bash -x /export.sh > /logs/export.log 2>&1
 
-ENTRYPOINT ["bash" , "source /config && tar -xzf /mnt/$LLENGUA.tar.gz --directory /media && python /STT/bin/import_cv2.py --validate_label_locale $LLENGUA /media/cv-corpus-6.1-2020-12-11/$LLENGUA/ && /bin/bash -x /train.sh >/logs/train.log 2>&1"]
+ENTRYPOINT ["bash" , "run.sh"]

@@ -1,14 +1,14 @@
-source .config
+source /config
 
 mkdir -p /checkpoints
 
-TF_CUDNN_RESET_RND_GEN_STATE=1 python train.py \
+TF_CUDNN_RESET_RND_GEN_STATE=1 python /STT/DeepSpeech.py \
     --show_progressbar True \
     --train_cudnn \
     --epochs 10 \
-    --noearly-stop \
+    --noearly_stop \
     --learning_rate ${LEARNING_RATE} \
-    --dropout ${DROPOUT} \
+    --dropout_rate ${DROPOUT} \
     --max_to_keep 1 \
     --drop_source_layers 2 \
     --train_batch_size 8 \
