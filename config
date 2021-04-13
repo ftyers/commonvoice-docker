@@ -1,12 +1,6 @@
-LLENGUA=br
-# LR {0.001, 0.0001, 0.00001}
-LEARNING_RATE="0.001"
-#B_LEARNING_RATE="0.0001"
-#C_LEARNING_RATE="0.00001"
-# DROPOUT {0.2, 0.4, 0.6}
-#X_DROPOUT="0.2"
-#Y_DROPOUT="0.4"
-DROPOUT="0.2"
+LLENGUA=eu
+LEARNING_RATE=0.001
+DROPOUT=0.2
 #SPECAUG: 0, 1
-#ON_SPECAUG="--augment frequency_mask[p=0.8,n=2:4,size=2:4]  --augment time_mask[p=0.8,n=2:4,size=10:50,domain=spectrogram]"
-SPECAUG=""
+SPECAUG="--augment frequency_mask[p=0.8,n=2:4,size=2:4]  --augment time_mask[p=0.8,n=2:4,size=10:50,domain=spectrogram]"
+#OFF_SPECAUG=""

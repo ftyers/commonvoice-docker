@@ -14,13 +14,17 @@
 #
 ls / /mnt /media 
 ls /STT
-source /config  &&
+cat /config && source /config  &&
 tar -xzf /mnt/$LLENGUA.tar.gz --directory /media &&
 python /STT/bin/import_cv2.py --validate_label_locale $LLENGUA /media/cv-corpus-6.1-2020-12-11/$LLENGUA/ &&
 wc -l /media/cv-corpus-6.1-2020-12-11/$LLENGUA/*.tsv
 wc -l /media/cv-corpus-6.1-2020-12-11/$LLENGUA/clips/*.csv
 SP="OFF"
-if [[ -z "${SPECAUG}" ]]; then
+if [[ ! -z "${SPECAUG}" ]]; then
 	SP="ON"
 fi
-/bin/bash -x /train.sh >/mnt/logs/${LLENGUA}.${LEARNING_RATE}.${DROPOUT}.${SP} 2>&1
+mkdir -p /mnt/logs/${LLENGUA}
+/bin/bash -x /train.sh >/mnt/logs/${LLENGUA}/train_${LEARNING_RATE}_${DROPOUT}_${SP} 2>&1
+/bin/bash -x /test.sh >/mnt/logs/${LLENGUA}/test_${LEARNING_RATE}_${DROPOUT}_${SP} 2>&1
+/bin/bash -x /lm.sh >/mnt/logs/${LLENGUA}/lm_${LEARNING_RATE}_${DROPOUT}_${SP} 2>&1
+/bin/bash -x /export.sh >/mnt/logs/${LLENGUA}/export_${LEARNING_RATE}_${DROPOUT}_${SP} 2>&1
