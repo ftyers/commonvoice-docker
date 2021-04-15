@@ -12,6 +12,7 @@
 #SPECAUG="--augment frequency_mask[p=0.8,n=2:4,size=2:4]  --augment time_mask[p=0.8,n=2:4,size=10:50,domain=spectrogram]"
 ##OFF_SPECAUG=""
 #
+ls /mnt/wikipedia
 ls / /mnt /media 
 ls /STT
 cat /config && source /config  &&

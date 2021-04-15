@@ -1,6 +1,6 @@
 
-for line in $(cat models.txt | grep -v '^#'); do
-	# or:0.00001:0.2:OFF
+for line in $(cat models.txt | grep -v '^#' | cut -f1 -d';'); do
+	# hsb:0.0001:0.4:ON;1:26:58
 	lang=$(echo ${line} | cut -f1 -d':')
 	lr=$(echo ${line} | cut -f2 -d':')
 	dropout=$(echo ${line} | cut -f3 -d':')

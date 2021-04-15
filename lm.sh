@@ -5,6 +5,8 @@ cp -r checkpoints/ /media/cv-corpus-6.1-2020-12-11/${LLENGUA}/alphabet.txt /mnt/
 
 mkdir -p /lm/${LLENGUA}
 
+ls /mnt/wikipedia/
+
 XLENGUA=$(echo ${LLENGUA} | cut -f1 -d'-')
 covo opus $XLENGUA | grep -e OpenSubtitles -e TED | cut -f2 > /lm/urls.txt
 lines=$(cat /lm/urls.txt | wc -l)
