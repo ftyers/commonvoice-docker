@@ -16,6 +16,8 @@ else
 	covo dump /mnt/wikipedia/$XLENGUA""wiki-latest-pages-articles.xml.bz2 | covo segment $LLENGUA | covo norm $LLENGUA > /lm/wiki.txt
 fi
 
+wc /lm/wiki.txt
+
 python3 /STT/data/lm/generate_lm.py \
   --input_txt /lm/wiki.txt \
   --output_dir /lm/${LLENGUA}/ \
