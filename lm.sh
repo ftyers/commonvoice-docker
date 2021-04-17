@@ -22,6 +22,7 @@ python3 /STT/data/lm/generate_lm.py \
   --input_txt /lm/wiki.txt \
   --output_dir /lm/${LLENGUA}/ \
   --top_k 500000 \
+  --discount_fallback \
   --kenlm_bins /STT/kenlm/build/bin/ \
   --arpa_order 5 \
   --max_arpa_memory "85%" \
