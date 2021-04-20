@@ -5,7 +5,7 @@ mkdir -p /checkpoints
 TF_CUDNN_RESET_RND_GEN_STATE=1 python /STT/DeepSpeech.py \
     --show_progressbar True \
     --train_cudnn \
-    --epochs 100 \
+    --epochs ${EPOCHS} \
     --noearly_stop \
     --learning_rate ${LEARNING_RATE} \
     --dropout_rate ${DROPOUT} \

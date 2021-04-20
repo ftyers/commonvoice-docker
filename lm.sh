@@ -7,15 +7,23 @@ mkdir -p /lm/${LLENGUA}
 
 ls /mnt/wikipedia/
 
+covo text ${LLENGUA} /media/cv-corpus-6.1-2020-12-11/${LLENGUA}/clips/dev.csv /media/cv-corpus-6.1-2020-12-11/${LLENGUA}/clips/train.csv > /lm/wiki.txt
+echo -ne 'Transcripts:';
+wc /lm/wiki.txt
 XLENGUA=$(echo ${LLENGUA} | cut -f1 -d'-')
-covo opus $XLENGUA | grep -e OpenSubtitles -e TED | cut -f2 > /lm/urls.txt
+covo opus $XLENGUA | grep -e Tatoeba -e OpenSubtitles -e TED | cut -f2 > /lm/urls.txt
 lines=$(cat /lm/urls.txt | wc -l)
 if [[ ${lines} -gt 0 ]]; then
-	cat /lm/urls.txt | xargs wget -O - | zcat | covo norm $LLENGUA > /lm/wiki.txt
+	cat /lm/urls.txt | xargs wget -O - | zcat | covo norm $LLENGUA >> /lm/wiki.txt
+	echo -ne 'OPUS:';
+	wc /lm/wiki.txt
 else
-	covo dump /mnt/wikipedia/$XLENGUA""wiki-latest-pages-articles.xml.bz2 | covo segment $LLENGUA | covo norm $LLENGUA > /lm/wiki.txt
+	covo dump /mnt/wikipedia/$XLENGUA""wiki-latest-pages-articles.xml.bz2 | covo segment $LLENGUA | covo norm $LLENGUA >> /lm/wiki.txt
+	echo -ne 'Wikipedia:';
+	wc /lm/wiki.txt
 fi
 
+echo -ne 'TOTAL:';
 wc /lm/wiki.txt
 
 python3 /STT/data/lm/generate_lm.py \
