@@ -6,7 +6,8 @@ for line in $(cat models.txt | grep -v '^#' | cut -f1 -d';'); do
 	dropout=$(echo ${line} | cut -f3 -d':')
 	specaug=$(echo ${line} | cut -f4 -d':')
 	epochs=$(echo ${line} | cut -f5 -d':')
-	cat config.tmpl | sed "s/#LLENGUA=XXX_LANG/LLENGUA=${lang}/g" | sed "s/XXX_EP/${epochs}/g"  | sed "s/XXX_DR/${dropout}/g" | sed "s/XXX_LR/${lr}/g" | sed "s/#${specaug}_//g" > configs/config.${lang}-${lr}_${dropout}_${specaug}
+	corpora=$(echo ${line} | cut -f6 -d':')
+	cat config.tmpl | sed "s/#LLENGUA=XXX_LANG/LLENGUA=${lang}/g" | sed "s/XXX_EP/${epochs}/g"  | sed "s/XXX_DR/${dropout}/g" | sed "s/XXX_LR/${lr}/g" | sed "s/#${specaug}_//g" | sed "s/XXX_CRP/${corpora}/g" > configs/config.${lang}-${lr}_${dropout}_${specaug}
 	cat configs/config.${lang}-${lr}_${dropout}_${specaug} > config
 	cat config
 

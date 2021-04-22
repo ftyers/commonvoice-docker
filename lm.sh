@@ -7,17 +7,37 @@ mkdir -p /lm/${LLENGUA}
 
 ls /mnt/wikipedia/
 
+echo "=================================================================================="
+
 covo text ${LLENGUA} /media/cv-corpus-6.1-2020-12-11/${LLENGUA}/clips/dev.csv /media/cv-corpus-6.1-2020-12-11/${LLENGUA}/clips/train.csv > /lm/wiki.txt
 echo -ne 'Transcripts:';
 wc /lm/wiki.txt
+
 XLENGUA=$(echo ${LLENGUA} | cut -f1 -d'-')
-covo opus $XLENGUA | grep -e Tatoeba -e OpenSubtitles -e TED | cut -f2 > /lm/urls.txt
-lines=$(cat /lm/urls.txt | wc -l)
-if [[ ${lines} -gt 0 ]]; then
-	cat /lm/urls.txt | xargs wget -O - | zcat | covo norm $LLENGUA >> /lm/wiki.txt
-	echo -ne 'OPUS:';
-	wc /lm/wiki.txt
-else
+
+res=$(echo ${CORPORA} | grep 'O' | wc -l)
+if [[ ${res} -gt 0 ]]; then
+	covo opus $XLENGUA | grep -e Tatoeba -e OpenSubtitles -e TED -e GlobalVoices | cut -f2 > /lm/urls.txt
+	lines=$(cat /lm/urls.txt | wc -l)
+	if [[ ${lines} -gt 0 ]]; then
+		cat /lm/urls.txt | xargs wget -O - | zcat | covo norm $LLENGUA >> /lm/wiki.txt
+		echo -ne 'OPUS:';
+		wc /lm/wiki.txt
+	fi
+	lines=$(cat /tmp/wiki.txt | wc -l)
+	if [[ ${lines} -lt 50000 ]]; then
+		covo opus $XLENGUA | cut -f2 > /lm/urls.txt
+		lines=$(cat /lm/urls.txt | wc -l)
+		if [[ ${lines} -gt 0 ]]; then
+			cat /lm/urls.txt | xargs wget -O - | zcat | covo norm $LLENGUA >> /lm/wiki.txt
+			echo -ne 'OPUS2:';
+			wc /lm/wiki.txt
+		fi
+	fi
+fi
+
+res=$(echo ${CORPORA} | grep 'W' | wc -l)
+if [[ ${res} -gt 0 ]]; then
 	covo dump /mnt/wikipedia/$XLENGUA""wiki-latest-pages-articles.xml.bz2 | covo segment $LLENGUA | covo norm $LLENGUA >> /lm/wiki.txt
 	echo -ne 'Wikipedia:';
 	wc /lm/wiki.txt
@@ -25,6 +45,8 @@ fi
 
 echo -ne 'TOTAL:';
 wc /lm/wiki.txt
+
+echo "=================================================================================="
 
 python3 /STT/data/lm/generate_lm.py \
   --input_txt /lm/wiki.txt \
