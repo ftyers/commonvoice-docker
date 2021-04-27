@@ -39,9 +39,11 @@ def evaluate(clips, output_file='output.log', max_clips=10, oracle=False):
 	responses = []
 	qs = [0 for i in range(0, MAXCLIPS)] + [1 for i in range(0, MAXCLIPS)]
 	random.shuffle(qs)
+	current_audio = ''
 
 	listener = keyboard.Listener(on_press=on_press)
 	listener.start()
+
 
 	for (i, tipus) in enumerate(qs):
 		clip = clips[i]
@@ -113,8 +115,6 @@ def evaluate(clips, output_file='output.log', max_clips=10, oracle=False):
 
 def main():
 
-	current_audio = ''
-
 	output_fd = open(sys.argv[1].replace('.json', '.log'), 'w')
 
 	fd = open(sys.argv[1])
@@ -124,6 +124,6 @@ def main():
 	random.shuffle(tst)
 	random.seed()
 
-	evaluate(tst, output_file=output_fd, max_clips=5, oracle=False)
+	evaluate(tst, output_file=output_fd, max_clips=2, oracle=False)
 	
 main()

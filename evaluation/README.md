@@ -1,3 +1,9 @@
+## Install
+
+```bash
+$ pip install -r requirements.txt
+```
+
 ## Input 
 
 The input file is the output of the STT training script.
