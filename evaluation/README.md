@@ -1,6 +1,6 @@
+## Input 
 
-
-Input file:
+The input file is the output of the STT training script.
 
 ```json
 [
@@ -45,7 +45,7 @@ $ python3 transcribe-evaluate.py full_test_output_lm.json
 [003] 4.34 ~ 6.12 | eu irei comprar na black friday
 
 [004] 
->     você pode ir dispensador e fazer um pouco de lava
+>     você pode ir ao dispensador e fazer um pouco de lava
 [004] 5.69 ~ 6.66 | você pode ir ao dispensador e fazer um pouco de lava
 
 1859fa2144e26d19fad0dcef0c95ea09f30940b0045742530e60b2740472a4a4	0.1071	0.2727	0	6.3840	4.7739	6.3840	1.7478
