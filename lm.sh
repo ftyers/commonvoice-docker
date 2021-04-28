@@ -7,6 +7,9 @@ mkdir -p /lm/${LLENGUA}
 
 ls /mnt/wikipedia/
 
+pip uninstall commonvoice-utils -y
+pip install git+https://github.com/ftyers/commonvoice-utils.git
+
 echo "=================================================================================="
 
 covo text ${LLENGUA} /media/cv-corpus-6.1-2020-12-11/${LLENGUA}/clips/dev.csv /media/cv-corpus-6.1-2020-12-11/${LLENGUA}/clips/train.csv > /lm/wiki.txt

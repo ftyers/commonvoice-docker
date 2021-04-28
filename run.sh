@@ -12,6 +12,9 @@
 #SPECAUG="--augment frequency_mask[p=0.8,n=2:4,size=2:4]  --augment time_mask[p=0.8,n=2:4,size=10:50,domain=spectrogram]"
 ##OFF_SPECAUG=""
 #
+pip uninstall commonvoice-utils -y
+pip install git+https://github.com/ftyers/commonvoice-utils.git
+
 ls /mnt/wikipedia
 ls / /mnt /media 
 ls /STT
@@ -25,6 +28,7 @@ if [[ ! -z "${SPECAUG}" ]]; then
 	SP="ON"
 fi
 mkdir -p /mnt/logs/${LLENGUA}
+
 /bin/bash -x /train.sh >/mnt/logs/${LLENGUA}/train_${LEARNING_RATE}_${DROPOUT}_${SP} 2>&1
 /bin/bash -x /test.sh >/mnt/logs/${LLENGUA}/test_${LEARNING_RATE}_${DROPOUT}_${SP} 2>&1
 /bin/bash -x /lm.sh >/mnt/logs/${LLENGUA}/lm_${LEARNING_RATE}_${DROPOUT}_${SP} 2>&1

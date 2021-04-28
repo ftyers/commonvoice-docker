@@ -58,7 +58,7 @@ RUN unzip /convert_graphdef_memmapped_format.linux.amd64.zip
 #RUN wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/native_client.amd64.cuda.linux.tar.xz && tar -xJvf native_client.amd64.cuda.linux.tar.xz
 # Covo tools for doing transcript processing and alphabet stuff
 
-RUN pip uninstall commonvoice-utils -y
+#RUN pip uninstall commonvoice-utils -y
 
 RUN pip install git+https://github.com/ftyers/commonvoice-utils.git
 
