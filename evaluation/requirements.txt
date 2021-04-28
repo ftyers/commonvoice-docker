@@ -1,0 +1,4 @@
+pynput
+prompt_toolkit
+playsound
+mutagen
