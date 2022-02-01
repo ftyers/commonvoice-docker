@@ -35,6 +35,12 @@ def evaluate(clips, output_file='output.log', max_clips=10, oracle=False):
 	print('      ------------------------------------------------------', file=sys.stderr)
 	print('      ', file=sys.stderr)
 
+	output_fd = open(output_file, 'w')
+
+	attempts_fd = None
+	if not oracle:
+		attempts_fd = open(output_file.replace('.log', '.attempts'), 'w')
+
 	MAXCLIPS = max_clips
 	responses = []
 	qs = [0 for i in range(0, MAXCLIPS)] + [1 for i in range(0, MAXCLIPS)]
@@ -83,8 +89,11 @@ def evaluate(clips, output_file='output.log', max_clips=10, oracle=False):
 		clip['edit_ratio'] = (audio_length + clip['edit_time']) / audio_length
 		print('%s\t%.4f\t%.4f\t%d\t%.4f\t%.4f\t%.4f\t%.4f' % 
 			(clip['hash'], clip['cer'], clip['wer'], clip['type'], clip['audio_length'], clip['edit_time'], clip['edit_time_norm'], clip['edit_ratio']),
-			file=output_file)
+			file=output_fd)
 		responses.append(clip)
+
+		if not oracle:
+			print('%s\t%s\t%s\t%s' % (clip['hash'], clip['src'], clip['res'], user_answer), file=attempts_fd)
 
 		if tipus == 0:
 			differences = difflib.ndiff(clip['res'].split(' '), clip['src'].split(' '))
@@ -102,7 +111,7 @@ def evaluate(clips, output_file='output.log', max_clips=10, oracle=False):
 			print('[%s] %.2f ~ %.2f | %s' % (str(i+1).zfill(3), audio_length, end_time - gs.start_time, clip['src']))
 		print()
 
-	output_file.close()
+	output_fd.close()
 
 	for clip in responses:
 		# ({'wav_filename': 'common_voice_pt_19347423.wav', 'src': 'uma vez por todas', 'res': 'uma vez por todas', 
@@ -115,15 +124,15 @@ def evaluate(clips, output_file='output.log', max_clips=10, oracle=False):
 
 def main():
 
-	output_fd = open(sys.argv[1].replace('.json', '.log'), 'w')
+	output_file = sys.argv[1].replace('.json', '.log')
 
 	fd = open(sys.argv[1])
 	tst = json.load(fd)
 
-	random.seed(10)
+	random.seed(20)
 	random.shuffle(tst)
 	random.seed()
 
-	evaluate(tst, output_file=output_fd, max_clips=2, oracle=False)
+	evaluate(tst, output_file=output_file, max_clips=50, oracle=True)
 	
 main()
